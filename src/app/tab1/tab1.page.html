@@ -1,17 +1,61 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- 
+  Este HTML sigue el prototipo del PDF:
+  - Título "Kera Bell"
+  - Eslogan
+  - Card con campos de Correo y Contraseña
+  - Botones de Iniciar Sesión, Registrar y modo Invitado
+-->
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="login-container">
+    
+    <h1 class="title">Kera Bell</h1>
+    <p class="slogan">"Belleza Profesional a tu Alcance"</p>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-card class="login-card">
+      <ion-card-content>
+        <!-- 
+          Usamos [(ngModel)] para enlazar los campos a los signals 
+          en el archivo .ts.
+          El .set() actualiza el valor del signal.
+        -->
+        <ion-item class="ion-margin-bottom" lines="full">
+          <ion-input
+            label="Correo"
+            labelPlacement="floating"
+            type="text"
+            [value]="usuario()"
+            (ionInput)="usuario.set($event.target.value + '')"
+          ></ion-input>
+        </ion-item>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+        <ion-item class="ion-margin-bottom" lines="full">
+          <ion-input
+            label="Contraseña"
+            labelPlacement="floating"
+            type="password"
+            [value]="contrasena()"
+            (ionInput)="contrasena.set($event.target.value + '')"
+          ></ion-input>
+        </ion-item>
+
+        <ion-button
+          (click)="login()"
+          expand="block"
+          class="login-button ion-margin-top"
+        >
+          INICIAR SESIÓN
+        </ion-button>
+
+        <ion-button (click)="goToRegister()" expand="block" fill="clear" class="register-button">
+          REGISTRAR
+        </ion-button>
+        
+        <ion-button (click)="loginInvitado()" expand="block" fill="outline" class="guest-button">
+          Entrar como Invitado
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+  </div>
 </ion-content>
