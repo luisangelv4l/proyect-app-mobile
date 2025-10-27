@@ -1,16 +1,30 @@
+// --- Imports necesarios ---
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-// NOTA: Quité 'IonicModule' de aquí. Se manejará en el .module.ts
+
+// --- ¡ESTO ES LO QUE FALTABA! ---
+// Importa los módulos para que el HTML funcione
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+// ---------------------------------
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-  // standalone: true, // <-- CORRECCIÓN: Eliminado
-  // imports: [...]   // <-- CORRECCIÓN: Eliminado
+  selector: 'app-tab1',         // Corregido
+  templateUrl: './tab1.page.html',
+  styleUrls: ['./tab1.page.scss'],   // Corregido
+
+  // --- ¡ESTO ES LO MÁS IMPORTANTE! ---
+  standalone: true,
+  imports: [
+    IonicModule,  // Permite usar <ion-content>, <ion-card>, etc.
+    CommonModule, // Permite usar [fullscreen], *ngIf, etc.
+    FormsModule,  // Permite usar [value] y (input) con signals
+  ],
+  // ------------------------------------
 })
-export class LoginPage {
+export class Tab1Page { // Corregido
   // Usamos signals para manejar los campos del formulario
   usuario = signal('');
   contrasena = signal('');
@@ -18,15 +32,15 @@ export class LoginPage {
   constructor(
     private router: Router,
     private alertController: AlertController
-  ) {}
+  ) { }
 
   /**
-   * Intenta iniciar sesión con las credenciales proporcionadas.
-   */
+  * Intenta iniciar sesión con las credenciales proporcionadas.
+  */
   async login() {
     if (this.usuario() === 'administrador' && this.contrasena() === '2025') {
       // Éxito: Navega a la primera pestaña de tu app
-      await this.router.navigate(['/tabs/tab1']);
+      await this.router.navigate(['/tabs/tab1']); // Nota: Esto te lleva a ti mismo, quizás quieras ir a tab2
     } else {
       // Error: Muestra alerta
       await this.presentAlert(
@@ -37,9 +51,9 @@ export class LoginPage {
   }
 
   /**
-   * Navega a la página de registro.
-   * (Esta función está lista para cuando crees esa página).
-   */
+  * Navega a la página de registro.
+  * (Esta función está lista para cuando crees esa página).
+  */
   async goToRegister() {
     // Por ahora, solo un placeholder.
     await this.presentAlert('No disponible', 'La página de registro aún no está implementada.');
@@ -47,16 +61,16 @@ export class LoginPage {
   }
 
   /**
-   * Permite el acceso como invitado.
-   */
+  * Permite el acceso como invitado.
+  */
   async loginInvitado() {
     // Navega a la primera pestaña
-    await this.router.navigate(['/tabs/tab1']);
+    await this.router.navigate(['/tabs/tab2']); // Te mando a tab2 para que veas un cambio
   }
 
   /**
-   * Muestra una alerta simple.
-   */
+  * Muestra una alerta simple.
+  */
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
@@ -66,4 +80,3 @@ export class LoginPage {
     await alert.present();
   }
 }
-
